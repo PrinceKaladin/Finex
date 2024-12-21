@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINEC PAY</title>
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    const user = tg.initDataUnsafe?.user;
+    const userInfo = document.getElementById("user-info");
+
+  </script>
+</head>
+<body>
+  <div class="crypto-bot">
+
+    <div class="balance-section">
+      <div class="balance-amount">
+        <span class="dollar-sign">$</span>
+        <span id="total-coins" class="amount">0</span>
+      </div>
+      <div class="balance-label">Общий баланс в <span class="usd">USD</span></div>
+    </div>
+
+    <div class="action-buttons" style = "margin: 50;">
+      <button class="action-button" onclick="showDepositModal()">
+        <div class="circle-button">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <span>Пополнить</span>
+      </button>
+      <button class="action-button" onclick="showWithdrawModal()">
+        <div class="circle-button">
+          <i class="fas fa-money-bill-wave"></i>
+        </div>
+        <span>Вывести</span>
+      </button>
+ 
+    </div>
+
+
+    <div class="assets-section">
+      <div class="assets-header">
+        <h2>АКТИВЫ</h2>
+
+      </div>
+      <div class="coins-container" id="coins"></div>
+
+
+      
+    
+      <!-- Модальное окно -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span id="modal-close" class="close">&times;</span>
+          <h2 id="modal-coin-name">Выберите действие</h2>
+          <button id="replenishBtn" class="modal-btn" onclick="">Пополнить</button>
+          <button id="withdrawBtn" class="modal-btn">Вывести</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+  <!-- Модальное окно для пополнения -->
+  <div id="depositModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Пополнение</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="coin-selector">
+          <label>Выберите монету:</label>
+          <select id="depositCoin">
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+            <option value="ETH">TRON</option>
+            <option value="ETH">USDT-trx20</option>
+            <option value="ETH">USDT-erc20</option>
+            <option value="ETH">USDT-bep20</option>
+          </select>
+        </div>
+        <div class="deposit-address">
+          <p>Адрес для пополнения:</p>
+          <div class="address-container">
+            <span id="depositAddress"></span>
+            <button onclick="copyAddress()" class="copy-btn">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+   
+        </div>
+        <div class="warning">
+          ⚠️ Отправляйте только <span id="selectedCoin">USDT</span> на этот адрес.
+          Минимальная сумма: <span id="minAmount">10</span> <span class="selected-coin">USDT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно для вывода -->
+  <div id="withdrawModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Вывод средств</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <!-- Содержимое будет заполнено скриптом -->
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='cryptos.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='send.js') }}"></script>
+  
+</body>
+</html>
